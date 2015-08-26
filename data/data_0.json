@@ -1,0 +1,36 @@
+{
+  "content": "转发了 平民天后0011 的微博:旧时天津的雪景  原图 赞[0] 原文转发[18] 原文评论[12] 转发理由:转发微博  赞[0] 转发[0] 评论[0] 收藏 今天 12:12 来自微博 weibo.com", 
+  "seg": "旧:1|天津:1|雪景:1|", 
+  "filteredContent": "旧时天津的雪景", 
+  "dp": [
+    {
+      "relate": "ATT", 
+      "cont": "旧时", 
+      "id": 0, 
+      "parent": 3, 
+      "pos": "nt"
+    }, 
+    {
+      "relate": "ATT", 
+      "cont": "天津", 
+      "id": 1, 
+      "parent": 3, 
+      "pos": "ns"
+    }, 
+    {
+      "relate": "RAD", 
+      "cont": "的", 
+      "id": 2, 
+      "parent": 1, 
+      "pos": "u"
+    }, 
+    {
+      "relate": "HED", 
+      "cont": "雪景", 
+      "id": 3, 
+      "parent": -1, 
+      "pos": "n"
+    }
+  ], 
+  "relatedInfo": "名词:雪景"
+}

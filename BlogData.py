@@ -158,5 +158,7 @@ def extractPOSTagAndDPTagOfRelatedInfo():
     for k in DPTag.keys():
         print k+' '+str(DPTag[k])
 
-# BlogData().extractPOSTagAndDPTagOfRelatedInfo()
-BlogData().calcTF()
+#提取微博数据的特征向量
+#针对每一个词的特征向量：POS特征向量+RELATE特征向量+PARENT特征向量+IDX特征+TF特征+IDF特征+TF_IDF特征+是否是关键词
+def extractFeature():
+    return 1

@@ -261,7 +261,7 @@ def getFeature(data):
 
     return data
 def extractFeature():
-    corpus_size = 20
+    corpus_size = 12833
     for i in xrange(corpus_size):
         try:
             src = 'data_noun_TF_relatedInfo/data_'+str(i)+'.json'

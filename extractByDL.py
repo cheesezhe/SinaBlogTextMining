@@ -21,7 +21,7 @@ import BlogData
 #   }
 # }
 
-def extractByDpPos(data):
+def extractByDL(data):
     #TODO:ADD code here
     return data
 
@@ -34,7 +34,7 @@ for i in xrange(corpus_size):
         blogData = BlogData(src)
         blogData.readFromJson()
 
-        blogData.data = extractByDpPos(blogData.data)
+        blogData.setData(extractByDL(blogData.getData()))
 
         dst = 'extracted/data_'+str(i)+'.json'
         blogData.saveData(dst)

@@ -182,7 +182,76 @@ def extractPOSTagAndDPTagOfRelatedInfo():
 #     }
 #   ]
 # }
+POS_vector = {
+    'n':'1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 ' ,
+    'nh':'0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 ' ,
+    'ns':'0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 ' ,
+    'v':'0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 ' ,
+    'r':'0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 ' ,
+    'ws':'0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 ' ,
+    'nz':'0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 ' ,
+    'j':'0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 ' ,
+    'a':'0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 ' ,
+    'nt':'0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 ' ,
+    'i':'0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 ' ,
+    'd':'0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 ' ,
+    'nl':'0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 ' ,
+    'q':'0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 ' ,
+    'o':'0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 ' ,
+    'ni':'0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 ' ,
+    'b':'0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 ' ,
+    'e':'0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 ' ,
+    'c':'0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 '
+}
+RELATE_vector = {
+    'SBV':'1 0 0 0 0 0 0 0 0 ' ,
+    'ATT':'0 1 0 0 0 0 0 0 0 ' ,
+    'VOB':'0 0 1 0 0 0 0 0 0 ' ,
+    'POB':'0 0 0 1 0 0 0 0 0 ' ,
+    'COO':'0 0 0 0 1 0 0 0 0 ' ,
+    'HED':'0 0 0 0 0 1 0 0 0 ' ,
+    'FOB':'0 0 0 0 0 0 1 0 0 ' ,
+    'ADV':'0 0 0 0 0 0 0 1 0 ' ,
+    'DBL':'0 0 0 0 0 0 0 0 1 '
+}
 def getFeature(data):
+    dp_len = len(data['dp'])
+    for i in xrange(dp_len):
+        features_vector = ""
+        meta_data = data['dp'][i]
+        #get POS feature vector
+        if POS_vector.has_key(meta_data['pos']):
+            features_vector += POS_vector[meta_data['pos']]
+        else:
+            features_vector += POS_vector[len(POS_vector) - 1]
+        #get dp relate feature vector
+        if RELATE_vector.has_key(meta_data['relate']):
+            features_vector += RELATE_vector[meta_data['relate']]
+        else:
+            features_vector += RELATE_vector[len(RELATE_vector) - 1]
+        #get blog length feature
+        features_vector += str(dp_len)+" "
+        #get idx feature
+        features_vector += str(meta_data['id'])+" "
+        #get position feature
+        features_vector += str((meta_data['id']+1)*1.0/dp_len*1.0)+" "
+        #get parent feature
+        features_vector += str(meta_data['parent'])+" "
+        #get parent position feature
+        features_vector += str((meta_data['parent']+1)*1.0/dp_len*1.0)+" "
+        #get tf,idf,tf-idf feature
+        features_vector += str(meta_data['tf']) + " "
+        features_vector += str(meta_data['idf']) + " "
+        features_vector += str(meta_data['tf-idf'])
+        data['dp'][i]['features_vector'] = features_vector
+
+        is_keyword = 0
+        for j in xrange(len(meta_data['relatedInfo'])):
+            if meta_data['cont'].encode('utf-8') == meta_data['relatedInfo'][j]['value'].encode('utf-8'):
+                is_keyword = 1
+                break
+        data['dp'][i]['is_keyword'] = is_keyword
+    return data
 
     return data
 def extractFeature():

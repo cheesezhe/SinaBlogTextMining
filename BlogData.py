@@ -205,7 +205,8 @@ POS_vector = {
     'ni':'0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 ' ,
     'b':'0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 ' ,
     'e':'0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 ' ,
-    'c':'0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 '
+    'c':'0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 ' ,
+    'other':'0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 '
 }
 RELATE_vector = {
     'SBV':'1 0 0 0 0 0 0 0 0 ' ,
@@ -216,7 +217,8 @@ RELATE_vector = {
     'HED':'0 0 0 0 0 1 0 0 0 ' ,
     'FOB':'0 0 0 0 0 0 1 0 0 ' ,
     'ADV':'0 0 0 0 0 0 0 1 0 ' ,
-    'DBL':'0 0 0 0 0 0 0 0 1 '
+    'DBL':'0 0 0 0 0 0 0 0 1 ' ,
+    'OTHER':'0 0 0 0 0 0 0 0 0 ' ,
 }
 def getFeature(data):
     dp_len = len(data['dp'])
@@ -227,12 +229,12 @@ def getFeature(data):
         if POS_vector.has_key(meta_data['pos']):
             features_vector += POS_vector[meta_data['pos']]
         else:
-            features_vector += POS_vector[len(POS_vector) - 1]
+            features_vector += POS_vector['other']
         #get dp relate feature vector
         if RELATE_vector.has_key(meta_data['relate']):
             features_vector += RELATE_vector[meta_data['relate']]
         else:
-            features_vector += RELATE_vector[len(RELATE_vector) - 1]
+            features_vector += RELATE_vector['OTHER']
         #get blog length feature
         features_vector += str(dp_len)+" "
         #get idx feature
@@ -250,8 +252,8 @@ def getFeature(data):
         data['dp'][i]['features_vector'] = features_vector
 
         is_keyword = 0
-        for j in xrange(len(meta_data['relatedInfo'])):
-            if meta_data['cont'].encode('utf-8') == meta_data['relatedInfo'][j]['value'].encode('utf-8'):
+        for j in xrange(len(data['relatedInfo'])):
+            if meta_data['cont'].encode('utf-8') == data['relatedInfo'][j]['value'].encode('utf-8'):
                 is_keyword = 1
                 break
         data['dp'][i]['is_keyword'] = is_keyword
@@ -271,7 +273,7 @@ def extractFeature():
             print 'processing %d/12832 successfully...'%i
         except BaseException,e:
             print  'processing %d/12832 fail...'%i
-            print e.message
+            # print e.message
             continue
     return 1
 extractFeature()

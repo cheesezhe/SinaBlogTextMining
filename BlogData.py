@@ -9,6 +9,10 @@ class BlogData:
     def __init__(self,file_path = None):
         self.file_path = file_path
         self.data = {}
+    def getData(self):
+        return self.data
+    def setData(self,data):
+        self.data = data
 
     #从file_path中读取JSON数据并保存在self.data中
     def readFromJson(self):
@@ -261,11 +265,13 @@ def extractFeature():
             src = 'data_noun_TF_relatedInfo/data_'+str(i)+'.json'
             blogData = BlogData(src)
             blogData.readFromJson()
-            blogData.data = getFeature(BlogData.data)
-            dst = 'data_noun_TF_relatedInfo/data_'+str(i)+'.json'
+            blogData.setData(getFeature(blogData.getData()))
+            dst = 'extracted/data_'+str(i)+'.json'
             blogData.saveData(dst)
             print 'processing %d/12832 successfully...'%i
         except BaseException,e:
             print  'processing %d/12832 fail...'%i
+            print e.message
             continue
     return 1
+extractFeature()

@@ -34,7 +34,7 @@ for i in xrange(corpus_size):
         blogData = BlogData(src)
         blogData.readFromJson()
 
-        blogData.data = extractByTfIdf(blogData.data)
+        blogData.setData(extractByTfIdf(blogData.getData()))
 
         dst = 'extracted/data_'+str(i)+'.json'
         blogData.saveData(dst)

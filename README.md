@@ -40,3 +40,11 @@
 **README.md**
 
 说明文档
+
+**extracted.rar**
+
+数据集：增加了每个词的特征向量
+
+**extractBy*.py**
+
+用*方法抽取关键词

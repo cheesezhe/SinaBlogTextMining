@@ -160,5 +160,43 @@ def extractPOSTagAndDPTagOfRelatedInfo():
 
 #提取微博数据的特征向量
 #针对每一个词的特征向量：POS特征向量+RELATE特征向量+PARENT特征向量+IDX特征+TF特征+IDF特征+TF_IDF特征+是否是关键词
+#在json数据中添加一项feature
+#新的json数据为：
+#{
+# 'content':...
+# 'seg':...
+#   .
+#   .
+#   .
+#  "dp": [
+#     {
+#       "cont": "....",
+#       "parent": 3,
+#       "relate": "ATT",
+#       "tf-idf": 2.0776652264768063,
+#       "pos": "nt",
+#       "idf": 8.310660905907225,
+#       "tf": 0.25,
+#       "id": 0,
+#       "feature": '0 1 0 1 0 1 0 0 0 ....'
+#     }
+#   ]
+# }
+def getFeature(data):
+
+    return data
 def extractFeature():
+    corpus_size = 20
+    for i in xrange(corpus_size):
+        try:
+            src = 'data_noun_TF_relatedInfo/data_'+str(i)+'.json'
+            blogData = BlogData(src)
+            blogData.readFromJson()
+            blogData.data = getFeature(BlogData.data)
+            dst = 'data_noun_TF_relatedInfo/data_'+str(i)+'.json'
+            blogData.saveData(dst)
+            print 'processing %d/12832 successfully...'%i
+        except BaseException,e:
+            print  'processing %d/12832 fail...'%i
+            continue
     return 1
